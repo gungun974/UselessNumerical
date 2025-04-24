@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "examplemod",
+  "id": "uselessnumerical",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This mod aims to help new BTA modders.",
+  "name": "Useless Numerical",
+  "description": "No more conflict with integer ids in BTA",
   "authors": [
-    "Turnip Labs"
+    "Gungun974"
   ],
   "contact": {
     "homepage": "",
@@ -19,20 +19,20 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-			"turniplabs.examplemod.ExampleMod"
+			"gungun974.uselessnumerical.UselessNumericalMod"
     ],
 		"beforeGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"gungun974.uselessnumerical.UselessNumericalMod"
 		],
 		"afterGameStart": [
-			"turniplabs.examplemod.ExampleMod"
+			"gungun974.uselessnumerical.UselessNumericalMod"
 		],
 		"recipesReady": [
-			"turniplabs.examplemod.ExampleMod"
+			"gungun974.uselessnumerical.UselessNumericalMod"
 		]
 	},
   "mixins": [
-      "examplemod.mixins.json"
+		"uselessnumerical.mixins.json"
   ],
 
   "depends": {

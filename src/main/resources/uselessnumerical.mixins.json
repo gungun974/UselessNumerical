@@ -4,7 +4,8 @@
   "package": "gungun974.uselessnumerical.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockAccessor"
+    "BlockAccessor",
+    "BlocksMixin"
   ],
   "client": [
   ],

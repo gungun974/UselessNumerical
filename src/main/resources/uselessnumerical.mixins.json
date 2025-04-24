@@ -5,7 +5,12 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlockAccessor",
-    "BlocksMixin"
+    "BlocksAccessor",
+    "BlocksMixin",
+    "ItemAccessor",
+    "ItemsAccessor",
+    "LevelDataMixin",
+    "SaveHandlerBaseMixin"
   ],
   "client": [
   ],

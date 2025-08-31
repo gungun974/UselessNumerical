@@ -15,7 +15,7 @@ switch (OperatingSystem.current()) {
 		project.ext.lwjglNatives = "natives-windows"
 		break
 	case OperatingSystem.MAC_OS:
-		project.ext.lwjglNatives = "natives-macos"
+		project.ext.lwjglNatives = "natives-macos-arm64"
 }
 
 group = project.mod_group

@@ -5,7 +5,6 @@ import net.minecraft.core.block.BlockLogic;
 import net.minecraft.core.block.BlockLogicSupplier;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(value = Block.class, remap = false)

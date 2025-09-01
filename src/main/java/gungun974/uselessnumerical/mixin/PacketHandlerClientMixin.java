@@ -23,7 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-@Mixin(value = PacketHandlerClient.class,remap = false)
+@Mixin(value = PacketHandlerClient.class, remap = false)
 public abstract class PacketHandlerClientMixin {
 	@Shadow
 	@Final

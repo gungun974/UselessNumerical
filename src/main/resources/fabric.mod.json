@@ -1,44 +1,31 @@
 {
-  "schemaVersion": 1,
-  "id": "uselessnumerical",
-  "version": "${version}",
-
-  "name": "Useless Numerical",
-  "description": "No more conflict with integer ids in BTA",
-  "authors": [
-    "Gungun974"
-  ],
-  "contact": {
-    "homepage": "",
-    "sources": ""
-  },
-
+	"schemaVersion": 1,
+	"id": "uselessnumerical",
+	"version": "${version}",
+	"name": "Useless Numerical",
+	"description": "No more conflict with integer ids in BTA",
+	"authors": [
+		"Gungun974"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
 	"icon": "icon.png",
-  "license": "CC0-1.0",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-			"gungun974.uselessnumerical.UselessNumericalMod"
-    ],
-		"beforeGameStart": [
-			"gungun974.uselessnumerical.UselessNumericalMod"
-		],
-		"afterGameStart": [
-			"gungun974.uselessnumerical.UselessNumericalMod"
-		],
-		"recipesReady": [
+	"license": "CC0-1.0",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
 			"gungun974.uselessnumerical.UselessNumericalMod"
 		]
 	},
-  "mixins": [
+	"mixins": [
 		"uselessnumerical.mixins.json"
-  ],
-
-  "depends": {
+	],
+	"depends": {
 		"minecraft": "*",
-    "fabricloader": ">=0.15.5"
-  },
-  "suggests": {
-  }
+		"fabricloader": ">=0.15.5"
+	},
+	"suggests": {
+	}
 }

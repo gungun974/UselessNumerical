@@ -19,7 +19,8 @@ import java.util.Map;
 public class MinecraftIdsConfiguration {
 	private static MinecraftIdsConfiguration instance;
 
-	public MinecraftIdsConfiguration() {}
+	public MinecraftIdsConfiguration() {
+	}
 
 	public static synchronized MinecraftIdsConfiguration getInstance() {
 		if (instance == null) {
@@ -152,6 +153,7 @@ public class MinecraftIdsConfiguration {
 		}
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public void saveInstanceConfiguration() {
 		CompoundTag rootTag = createNBTData();
 
@@ -172,14 +174,15 @@ public class MinecraftIdsConfiguration {
 
 			levelDatNew.renameTo(levelDat);
 			if (levelDatNew.exists()) {
-				 levelDatNew.delete();
+				levelDatNew.delete();
 			}
 		} catch (Exception exception) {
-			UselessNumericalMod.LOGGER.error((String)"Failed to save ids data to disk!", (Throwable)exception);
+			UselessNumericalMod.LOGGER.error("Failed to save ids data to disk!", exception);
 		}
 
 	}
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public void saveWorldConfiguration(File saveDir) {
 		CompoundTag rootTag = createNBTData();
 
@@ -203,7 +206,7 @@ public class MinecraftIdsConfiguration {
 				levelDatNew.delete();
 			}
 		} catch (Exception exception) {
-			UselessNumericalMod.LOGGER.error((String)"Failed to save ids data to disk!", (Throwable)exception);
+			UselessNumericalMod.LOGGER.error("Failed to save ids data to disk!", exception);
 		}
 
 	}

@@ -23,7 +23,7 @@ public class MinecraftServerMixin {
 	public PropertyManager propertyManager;
 
 	@Inject(method = "startServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/data/registry/Registries;<init>()V"))
-	public void beforeGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
+	public void beforeGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir) {
 		String lName = this.argWorld == null ? this.propertyManager.getStringProperty("level-name", "world") : this.argWorld;
 
 		if (MinecraftIdsConfiguration.getInstance().hasWorldConfiguration(new File(lName))) {
@@ -33,7 +33,7 @@ public class MinecraftServerMixin {
 	}
 
 	@Inject(method = "startServer", at = @At("TAIL"))
-	public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir){
+	public void afterGameStartEntrypoint(CallbackInfoReturnable<Boolean> cir) {
 		String lName = this.argWorld == null ? this.propertyManager.getStringProperty("level-name", "world") : this.argWorld;
 
 		UselessNumericalMod.LOGGER.info("Save \"{}\" ids configuration", lName);

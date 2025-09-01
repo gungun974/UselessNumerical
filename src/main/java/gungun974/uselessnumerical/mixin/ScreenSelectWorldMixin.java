@@ -1,6 +1,9 @@
 package gungun974.uselessnumerical.mixin;
 
-import gungun974.uselessnumerical.*;
+import gungun974.uselessnumerical.ConflictScreen;
+import gungun974.uselessnumerical.ISaveFile;
+import gungun974.uselessnumerical.MinecraftIdsConfiguration;
+import gungun974.uselessnumerical.MinecraftIdsConflict;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.ScreenSelectWorld;
 import net.minecraft.core.world.save.SaveFile;

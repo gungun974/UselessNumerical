@@ -46,13 +46,13 @@ public class BlocksMixin {
 		Blocks.blocksList[container.id()] = container;
 
 		if (Blocks.keyToIdMap.containsKey(container.getKey())) {
-			throw new IllegalArgumentException("Key '" + container.getKey() + "' of block '" + container.namespaceId() + "' is already being used by '" + Blocks.getBlock((Integer) Blocks.keyToIdMap.get(container.getKey())).namespaceId() + "'!");
+			throw new IllegalArgumentException("Key '" + container.getKey() + "' of block '" + container.namespaceId() + "' is already being used by '" + Blocks.getBlock(Blocks.keyToIdMap.get(container.getKey())).namespaceId() + "'!");
 		}
 
 		Blocks.keyToIdMap.put(container.getKey(), container.id());
 
 		if (Blocks.blockMap.containsKey(container.namespaceId())) {
-			throw new IllegalArgumentException("NamespaceId '" + container.namespaceId() + "' of block '" + container.getKey() + "' is already being used by '" + ((Block) Blocks.blockMap.get(container.namespaceId())).namespaceId() + "'!");
+			throw new IllegalArgumentException("NamespaceId '" + container.namespaceId() + "' of block '" + container.getKey() + "' is already being used by '" + Blocks.blockMap.get(container.namespaceId()).namespaceId() + "'!");
 		}
 
 		Blocks.blockMap.put(container.namespaceId(), container);

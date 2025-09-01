@@ -108,7 +108,7 @@ public class MinecraftIdsConfiguration {
 		}
 	}
 
-	private void loadNBTData(CompoundTag nbtRoot) {
+	public void loadNBTData(CompoundTag nbtRoot) {
 		CompoundTag blockTags = nbtRoot.getCompound("Blocks");
 
 		localBlockMap.clear();
@@ -208,7 +208,7 @@ public class MinecraftIdsConfiguration {
 
 	}
 
-	private @NotNull CompoundTag createNBTData() {
+	public @NotNull CompoundTag createNBTData() {
 		CompoundTag rootTag = new CompoundTag();
 
 		CompoundTag blockTags = new CompoundTag();

@@ -12,12 +12,14 @@
   ],
   "client": [
     "MinecraftMixin",
+    "PacketHandlerClientMixin",
     "ScreenSelectWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "server": [
-    "MinecraftServerMixin"
+    "MinecraftServerMixin",
+    "PacketHandlerLoginMixin"
   ]
 }

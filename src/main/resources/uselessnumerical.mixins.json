@@ -5,14 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BlockAccessor",
-    "BlocksAccessor",
     "BlocksMixin",
-    "ItemAccessor",
-    "ItemsAccessor",
-    "LevelDataMixin",
-    "SaveHandlerBaseMixin"
+    "ItemMixin"
   ],
   "client": [
+    "MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -2,7 +2,6 @@ package gungun974.uselessnumerical.mixin;
 
 import gungun974.uselessnumerical.*;
 import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.ScreenCreateWorld;
 import net.minecraft.client.gui.ScreenSelectWorld;
 import net.minecraft.core.world.save.SaveFile;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,7 +31,6 @@ public class ScreenSelectWorldMixin extends Screen {
 		MinecraftIdsConfiguration saveConfiguration = new MinecraftIdsConfiguration();
 
 		if (!saveConfiguration.hasWorldConfiguration(saveDir)) {
-			MinecraftIdsConfiguration.getInstance().saveWorldConfiguration(saveDir);
 			return;
 		}
 
@@ -41,7 +39,6 @@ public class ScreenSelectWorldMixin extends Screen {
 		MinecraftIdsConflict conflict = saveConfiguration.checkConflictWithInstance();
 
 		if (conflict == MinecraftIdsConflict.NONE) {
-			MinecraftIdsConfiguration.getInstance().saveWorldConfiguration(saveDir);
 			return;
 		}
 

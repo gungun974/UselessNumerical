@@ -14,8 +14,8 @@ jobs:
         java: [
           17,    # Current Java LTS & minimum supported by Minecraft
         ]
-        # and run on both Linux and Windows
-        os: [ubuntu-latest, windows-latest]
+        # and run on both Linux
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repository
@@ -28,7 +28,6 @@ jobs:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
       - name: make gradle wrapper executable
-        if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build

@@ -6,10 +6,13 @@
   "mixins": [
     "BlockAccessor",
     "BlocksMixin",
-    "ItemMixin"
+    "ItemMixin",
+    "SaveFileMixin",
+    "SaveFormatBaseMixin"
   ],
   "client": [
-    "MinecraftMixin"
+    "MinecraftMixin",
+    "ScreenSelectWorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

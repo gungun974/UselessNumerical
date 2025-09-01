@@ -5,9 +5,6 @@ import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.IntTag;
 import com.mojang.nbt.tags.Tag;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.block.Block;
-import net.minecraft.core.block.Blocks;
-import net.minecraft.core.item.Item;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
 import org.jetbrains.annotations.NotNull;
@@ -156,7 +153,7 @@ public class MinecraftIdsConfiguration {
 	}
 
 	public void saveInstanceConfiguration() {
-		CompoundTag rootTag = CreateNBTData();
+		CompoundTag rootTag = createNBTData();
 
 		try {
 			File levelDatNew = new File(Minecraft.getMinecraft().getMinecraftDir(), "uselessNumericalInstance.dat_new");
@@ -184,7 +181,7 @@ public class MinecraftIdsConfiguration {
 	}
 
 	public void saveWorldConfiguration(File saveDir) {
-		CompoundTag rootTag = CreateNBTData();
+		CompoundTag rootTag = createNBTData();
 
 		try {
 			File levelDatNew = new File(saveDir, "uselessNumericalSave.dat_new");
@@ -211,21 +208,21 @@ public class MinecraftIdsConfiguration {
 
 	}
 
-	private static @NotNull CompoundTag CreateNBTData() {
+	private @NotNull CompoundTag createNBTData() {
 		CompoundTag rootTag = new CompoundTag();
 
 		CompoundTag blockTags = new CompoundTag();
 
-		for (Map.Entry<NamespaceID, Block<?>> entry  : Blocks.blockMap.entrySet()) {
-			blockTags.putInt(entry.getKey().toString(), entry.getValue().id());
+		for (Map.Entry<NamespaceID, Integer> entry : localBlockMap.entrySet()) {
+			blockTags.putInt(entry.getKey().toString(), entry.getValue());
 		}
 
 		rootTag.putCompound("Blocks", blockTags);
 
 		CompoundTag itemTags = new CompoundTag();
 
-		for (Map.Entry<NamespaceID, Item> entry  : Item.itemsMap.entrySet()) {
-			itemTags.putInt(entry.getKey().toString(), entry.getValue().id);
+		for (Map.Entry<NamespaceID, Integer> entry : localItemsMap.entrySet()) {
+			itemTags.putInt(entry.getKey().toString(), entry.getValue());
 		}
 
 		rootTag.putCompound("Items", itemTags);

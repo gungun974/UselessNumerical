@@ -7,12 +7,9 @@ import com.mojang.nbt.tags.Tag;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Block;
 import net.minecraft.core.block.Blocks;
-import net.minecraft.core.data.gamerule.GameRuleCollection;
-import net.minecraft.core.enums.Difficulty;
 import net.minecraft.core.item.Item;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
-import net.minecraft.core.world.config.spawning.SpawnerConfig;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Unique;
 

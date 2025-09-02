@@ -60,7 +60,7 @@ public abstract class PacketHandlerClientMixin {
 			return;
 		}
 
-		MinecraftIdsConflict conflict = configuration.checkConflictWithInstance();
+		MinecraftIdsConflict conflict = configuration.checkConflictWithInstance(true);
 
 		if (conflict == MinecraftIdsConflict.NONE) {
 			return;

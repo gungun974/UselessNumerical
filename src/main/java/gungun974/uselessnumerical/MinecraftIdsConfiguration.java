@@ -5,10 +5,11 @@ import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.IntTag;
 import com.mojang.nbt.tags.Tag;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.block.Blocks;
+import net.minecraft.core.item.Item;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Unique;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,9 +30,7 @@ public class MinecraftIdsConfiguration {
 		return instance;
 	}
 
-	@Unique
 	private final Map<NamespaceID, Integer> localBlockMap = new LinkedHashMap<>();
-	@Unique
 	private final Map<NamespaceID, Integer> localItemsMap = new LinkedHashMap<>();
 
 	public boolean hasWorldConfiguration(File saveDir) {
@@ -217,6 +216,10 @@ public class MinecraftIdsConfiguration {
 		CompoundTag blockTags = new CompoundTag();
 
 		for (Map.Entry<NamespaceID, Integer> entry : localBlockMap.entrySet()) {
+			if (!Blocks.blockMap.containsKey(entry.getKey())) {
+				continue;
+			}
+
 			blockTags.putInt(entry.getKey().toString(), entry.getValue());
 		}
 
@@ -225,6 +228,10 @@ public class MinecraftIdsConfiguration {
 		CompoundTag itemTags = new CompoundTag();
 
 		for (Map.Entry<NamespaceID, Integer> entry : localItemsMap.entrySet()) {
+			if (!Item.itemsMap.containsKey(entry.getKey())) {
+				continue;
+			}
+
 			itemTags.putInt(entry.getKey().toString(), entry.getValue());
 		}
 
@@ -284,7 +291,49 @@ public class MinecraftIdsConfiguration {
 		return numericalId;
 	}
 
-	public MinecraftIdsConflict checkConflictWithInstance() {
+	public MinecraftIdsConflict checkConflictWithInstance(boolean ignoreMissing) {
+		if (!ignoreMissing) {
+			boolean missing = false;
+
+			Map<NamespaceID, Integer> missingLocalBlockMap = new LinkedHashMap<>();
+			Map<NamespaceID, Integer> missingLocalItemsMap = new LinkedHashMap<>();
+
+
+			for (Map.Entry<NamespaceID, Integer> block : localBlockMap.entrySet()) {
+				if (Blocks.blockMap.containsKey(block.getKey())) {
+					continue;
+				}
+
+				missing = true;
+
+				missingLocalBlockMap.put(block.getKey(), block.getValue());
+			}
+
+			for (Map.Entry<NamespaceID, Integer> item : localItemsMap.entrySet()) {
+				if (Item.itemsMap.containsKey(item.getKey())) {
+					continue;
+				}
+
+				missing = true;
+
+				missingLocalItemsMap.put(item.getKey(), item.getValue());
+			}
+
+			if (missing) {
+				MinecraftIdsConflict conflict = MinecraftIdsConflict.MISSING;
+
+				conflict.localBlockMap = missingLocalBlockMap;
+				conflict.localItemsMap = missingLocalItemsMap;
+
+				return conflict;
+			}
+		}
+
+		boolean needRestart = false;
+
+		Map<NamespaceID, Integer> differentLocalBlockMap = new LinkedHashMap<>();
+		Map<NamespaceID, Integer> differentLocalItemsMap = new LinkedHashMap<>();
+
 
 		for (Map.Entry<NamespaceID, Integer> block : localBlockMap.entrySet()) {
 			int loadedId = instance.getNumericalIdForBlock(block.getKey());
@@ -297,7 +346,9 @@ public class MinecraftIdsConfiguration {
 				continue;
 			}
 
-			return MinecraftIdsConflict.NEED_RESTART;
+			needRestart = true;
+
+			differentLocalBlockMap.put(block.getKey(), block.getValue());
 		}
 
 		for (Map.Entry<NamespaceID, Integer> item : localItemsMap.entrySet()) {
@@ -311,7 +362,18 @@ public class MinecraftIdsConfiguration {
 				continue;
 			}
 
-			return MinecraftIdsConflict.NEED_RESTART;
+			needRestart = true;
+
+			differentLocalItemsMap.put(item.getKey(), item.getValue());
+		}
+
+		if (needRestart) {
+			MinecraftIdsConflict conflict = MinecraftIdsConflict.NEED_RESTART;
+
+			conflict.localBlockMap = differentLocalBlockMap;
+			conflict.localItemsMap = differentLocalItemsMap;
+
+			return conflict;
 		}
 
 		return MinecraftIdsConflict.NONE;

@@ -274,6 +274,11 @@ public class MinecraftIdsConfiguration {
 	}
 
 	public int generateNumericalIdForItem(NamespaceID id, int preferredNumericalId) {
+		if (preferredNumericalId < Blocks.blocksList.length) {
+			setNumericalIdForItem(id, preferredNumericalId);
+			return preferredNumericalId;
+		}
+
 		int attributedNumericalId = getNumericalIdForItem(id);
 
 		if (attributedNumericalId != -1) {

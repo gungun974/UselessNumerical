@@ -4,8 +4,7 @@
   "package": "gungun974.uselessnumerical.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BlockAccessor",
-    "BlocksMixin",
+    "BlockMixin",
     "ItemMixin",
     "SaveFileMixin",
     "SaveFormatBaseMixin"

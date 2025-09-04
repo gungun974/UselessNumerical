@@ -3,7 +3,7 @@
 	"id": "uselessnumerical",
 	"version": "${version}",
 	"name": "Useless Numerical",
-	"description": "No more conflict with integer ids in BTA",
+	"description": "No more conflict with integer IDs in BTA",
 	"authors": [
 		"Gungun974"
 	],

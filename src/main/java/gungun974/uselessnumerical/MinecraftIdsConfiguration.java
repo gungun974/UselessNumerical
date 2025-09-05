@@ -34,24 +34,17 @@ public class MinecraftIdsConfiguration {
 	private final Map<NamespaceID, Integer> localItemsMap = new LinkedHashMap<>();
 
 	public boolean hasWorldConfiguration(File saveDir) {
-		try {
-			if (!saveDir.exists()) {
-				throw new IOException();
+		if (!saveDir.exists()) {
+			return false;
+		} else {
+			File worldLevelDat = new File(saveDir, "uselessNumericalSave.dat");
+			if (worldLevelDat.exists()) {
+				return true;
 			} else {
-				File worldLevelDat = new File(saveDir, "uselessNumericalSave.dat");
-				if (worldLevelDat.exists()) {
-					return true;
-				} else {
-					worldLevelDat = new File(saveDir, "uselessNumericalSave.dat_old");
-					if (worldLevelDat.exists()) {
-						return true;
-					}
-				}
+				worldLevelDat = new File(saveDir, "uselessNumericalSave.dat_old");
+				return worldLevelDat.exists();
 			}
-		} catch (IOException e) {
-			throw new RuntimeException(e);
 		}
-		return false;
 	}
 
 	public void loadInstanceConfiguration() {

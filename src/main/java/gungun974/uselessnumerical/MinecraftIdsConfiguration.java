@@ -4,11 +4,16 @@ import com.mojang.nbt.NbtIo;
 import com.mojang.nbt.tags.CompoundTag;
 import com.mojang.nbt.tags.IntTag;
 import com.mojang.nbt.tags.Tag;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.loader.impl.launch.FabricLauncherBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.item.Item;
+import net.minecraft.core.net.PropertyManager;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
+import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -19,6 +24,7 @@ import java.util.Map;
 
 public class MinecraftIdsConfiguration {
 	private static MinecraftIdsConfiguration instance;
+	private static boolean hasLoadedInstance;
 
 	public MinecraftIdsConfiguration() {
 	}
@@ -27,6 +33,16 @@ public class MinecraftIdsConfiguration {
 		if (instance == null) {
 			instance = new MinecraftIdsConfiguration();
 		}
+
+		if (!hasLoadedInstance) {
+			if (FabricLauncherBase.getLauncher().getEnvironmentType() == EnvType.SERVER) {
+				instance.loadServerInstanceConfiguration();
+			} else {
+				instance.loadClientInstanceConfiguration();
+			}
+			hasLoadedInstance = true;
+		}
+
 		return instance;
 	}
 
@@ -47,7 +63,8 @@ public class MinecraftIdsConfiguration {
 		}
 	}
 
-	public void loadInstanceConfiguration() {
+	@Environment(value = EnvType.CLIENT)
+	public void loadClientInstanceConfiguration() {
 		CompoundTag nbtRoot = null;
 
 		File instanceDir = Minecraft.getMinecraft().getMinecraftDir();
@@ -72,6 +89,20 @@ public class MinecraftIdsConfiguration {
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	@Environment(value = EnvType.SERVER)
+	public void loadServerInstanceConfiguration() {
+		MinecraftServer server = MinecraftServer.getInstance();
+
+		PropertyManager propertyManager = new PropertyManager(new File("server.properties"));
+
+		String lName = server.argWorld == null ? propertyManager.getStringProperty("level-name", "world") : server.argWorld;
+
+		if (instance.hasWorldConfiguration(new File(lName))) {
+			instance.loadWorldConfiguration(new File(lName));
+			UselessNumericalMod.LOGGER.info("Load \"{}\" ids configuration", lName);
 		}
 	}
 

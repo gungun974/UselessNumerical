@@ -1,6 +1,7 @@
 package gungun974.uselessnumerical.mixin;
 
 import gungun974.uselessnumerical.MinecraftIdsConfiguration;
+import gungun974.uselessnumerical.UselessNumericalMod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.world.type.WorldTypeGroups;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,11 +16,6 @@ import java.io.File;
 public class MinecraftMixin {
 	@Shadow
 	private File mcDataDir;
-
-	@Inject(method = "startGame", at = @At("HEAD"))
-	public void beforeGameStartEntrypoint(CallbackInfo ci) {
-		MinecraftIdsConfiguration.getInstance().loadInstanceConfiguration();
-	}
 
 	@Inject(method = "startGame", at = @At("TAIL"))
 	public void afterGameStartEntrypoint(CallbackInfo ci) {

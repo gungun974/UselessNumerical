@@ -122,6 +122,7 @@ public class MissingScreen extends Screen {
 
 			if (index < blocksCount) {
 				NamespaceID block = missingLocalBlocks.get(index);
+				MissingScreen.this.drawString(MissingScreen.this.font, "[Block]", x + 2 - 124 / 2 - 38, y + 1, index % 2 != 0 ? 9474192 : 16777215);
 				MissingScreen.this.drawString(MissingScreen.this.font, block.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
 				return;
 			}
@@ -129,6 +130,7 @@ public class MissingScreen extends Screen {
 			int itemIndex = index - blocksCount;
 			if (itemIndex < itemsCount) {
 				NamespaceID item = missingLocalItems.get(itemIndex);
+				MissingScreen.this.drawString(MissingScreen.this.font, "[Item]", x + 2 - 124 / 2 - 38, y + 1, index % 2 != 0 ? 9474192 : 16777215);
 				MissingScreen.this.drawString(MissingScreen.this.font, item.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
 			}
 		}

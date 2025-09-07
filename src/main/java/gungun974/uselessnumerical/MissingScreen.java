@@ -117,15 +117,20 @@ public class MissingScreen extends Screen {
 		}
 
 		protected void renderItem(int index, int x, int y, int height, Tessellator tessellator) {
-			if (index < missingLocalBlocks.size()) {
-				NamespaceID block = missingLocalBlocks.get(index);
+			int blocksCount = missingLocalBlocks.size();
+			int itemsCount  = missingLocalItems.size();
 
+			if (index < blocksCount) {
+				NamespaceID block = missingLocalBlocks.get(index);
 				MissingScreen.this.drawString(MissingScreen.this.font, block.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+				return;
 			}
 
-			NamespaceID item = missingLocalItems.get(index);
-
-			MissingScreen.this.drawString(MissingScreen.this.font, item.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+			int itemIndex = index - blocksCount;
+			if (itemIndex < itemsCount) {
+				NamespaceID item = missingLocalItems.get(itemIndex);
+				MissingScreen.this.drawString(MissingScreen.this.font, item.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+			}
 		}
 	}
 }

@@ -6,7 +6,7 @@ import com.mojang.nbt.tags.IntTag;
 import com.mojang.nbt.tags.Tag;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.loader.impl.launch.FabricLauncherBase;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.block.Blocks;
 import net.minecraft.core.item.Item;
@@ -35,7 +35,7 @@ public class MinecraftIdsConfiguration {
 		}
 
 		if (!hasLoadedInstance) {
-			if (FabricLauncherBase.getLauncher().getEnvironmentType() == EnvType.SERVER) {
+			if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
 				instance.loadServerInstanceConfiguration();
 			} else {
 				instance.loadClientInstanceConfiguration();
@@ -94,11 +94,29 @@ public class MinecraftIdsConfiguration {
 
 	@Environment(value = EnvType.SERVER)
 	public void loadServerInstanceConfiguration() {
-		MinecraftServer server = MinecraftServer.getInstance();
-
 		PropertyManager propertyManager = new PropertyManager(new File("server.properties"));
 
-		String lName = server.argWorld == null ? propertyManager.getStringProperty("level-name", "world") : server.argWorld;
+		String[] args = FabricLoader.getInstance().getLaunchArguments(true);
+
+		String world = null;
+		int pointer = 0;
+
+		while(pointer < args.length) {
+			if (args[pointer].equals("--world")) {
+				try {
+					world = args[pointer + 1];
+					++pointer;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				++pointer;
+			} else {
+				++pointer;
+			}
+		}
+
+		String lName = world == null ? propertyManager.getStringProperty("level-name", "world") : world;
 
 		if (instance.hasWorldConfiguration(new File(lName))) {
 			instance.loadWorldConfiguration(new File(lName));

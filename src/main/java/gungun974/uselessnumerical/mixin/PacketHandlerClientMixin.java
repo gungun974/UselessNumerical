@@ -54,7 +54,7 @@ public abstract class PacketHandlerClientMixin {
 		}
 	}
 
-	@Inject(method = "handleHandshake", at = @At(value = "TAIL"), cancellable = true)
+	@Inject(method = "handleHandshake", at = @At(value = "HEAD"), cancellable = true)
 	public void checkCompatibilityWithServer(PacketPreLogin preLoginPacket, CallbackInfo ci) {
 		if (configuration == null) {
 			return;

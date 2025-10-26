@@ -1,10 +1,14 @@
 @file:Suppress("UnstableApiUsage", "PropertyName")
 
 import org.apache.tools.ant.taskdefs.condition.Os
+import java.io.FileNotFoundException
+import java.net.URL
+import javax.xml.parsers.DocumentBuilderFactory.newInstance
 
 plugins {
     id("fabric-loom") version "1.10.0-bta"
     id("java")
+    id("maven-publish")
 }
 
 val lwjglVersion = "3.3.4"
@@ -153,5 +157,52 @@ tasks.processResources {
     inputs.property("version", version)
     filesMatching("fabric.mod.json") {
         expand("version" to version)
+    }
+}
+
+fun checkVersion(group: String, name: String, version: String): Boolean {
+    return try {
+        val xmlUrl = "https://maven.thesignalumproject.net/releases/$group/$name/maven-metadata.xml"
+        val doc = newInstance()
+            .newDocumentBuilder()
+            .parse(URL(xmlUrl).openStream())
+
+        val versionNodes = doc.getElementsByTagName("version")
+        val versions = (0 until versionNodes.length).map { i ->
+            versionNodes.item(i).textContent
+        }
+
+        if (versions.contains(version)) {
+            System.err.println("Version $version of $group.$name already exists!")
+            false
+        } else {
+            true
+        }
+    } catch (e: FileNotFoundException) {
+        true
+    }
+}
+
+publishing {
+    if (checkVersion("gungun974", project.property("mod_name").toString(), project.property("mod_version").toString())) {
+        repositories {
+            maven {
+                name = "signalumMaven"
+                url = uri("https://maven.thesignalumproject.net/releases")
+                credentials(PasswordCredentials::class)
+                authentication {
+                    create<BasicAuthentication>("basic")
+                }
+            }
+        }
+
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = "gungun974"
+                artifactId = project.property("mod_name").toString()
+                version = project.property("mod_version").toString() + "-" + project.property("bta_version").toString()
+                from(components["java"])
+            }
+        }
     }
 }

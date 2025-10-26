@@ -93,7 +93,7 @@ dependencies {
     modRuntimeOnly("objects:client:43db9b498cb67058d2e12d394e6507722e71bb45") // https://piston-data.mojang.com/v1/objects/43db9b498cb67058d2e12d394e6507722e71bb45/client.jar
     modImplementation("net.fabricmc:fabric-loader:$loader_version")
 
-    modImplementation("com.github.Turnip-Labs:bta-halplibe:$halplibe_version")
+    modImplementation("turniplabs:halplibe:${halplibe_version}")
 
     modImplementation("turniplabs:modmenu-bta:$mod_menu_version")
 

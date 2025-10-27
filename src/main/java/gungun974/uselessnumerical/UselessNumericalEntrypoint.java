@@ -48,6 +48,13 @@ public interface UselessNumericalEntrypoint {
 	 * Defines an alias between two {@link NamespaceID} instances.
 	 * The alias ensures that the destination {@link NamespaceID} points to the same reference
 	 * as the source {@link NamespaceID}, maintaining compatibility between renamed or removed identifiers.
+	 *
+	 * <p>
+	 * This method adds additional safety checks to ensure that you have not forgotten
+	 * to include the `block/` or `item/` prefix in your {@link NamespaceID}s,
+	 * and that you are not mismatching blocks and items.
+	 * </p>
+	 *
 	 * <p>
 	 * <b>Note:</b> The source {@link NamespaceID} must not correspond to an ID
 	 * that will be registered later, as this would create a conflict
@@ -57,6 +64,33 @@ public interface UselessNumericalEntrypoint {
 	 * @param alias a {@link BiConsumer} accepting a source {@link NamespaceID} (origin)
 	 *              and a destination {@link NamespaceID} (target),
 	 *              establishing the alias relationship between them
+	 *
+	 * @see #defineUnsafeAlias(BiConsumer) 
 	 */
 	void defineAlias(BiConsumer<NamespaceID, NamespaceID> alias);
+
+	/**
+	 * Defines an alias between two {@link NamespaceID} instances.
+	 * The alias ensures that the destination {@link NamespaceID} points to the same reference
+	 * as the source {@link NamespaceID}, maintaining compatibility between renamed or removed identifiers.
+	 *
+	 * <p>
+	 * This variant of {@link #defineAlias(BiConsumer)} skips the additional safety checks,
+	 * allowing you to define aliases even if the `block/` or `item/` prefix is missing
+	 * from your {@link NamespaceID}s.
+	 * </p>
+	 *
+	 * <p>
+	 * <b>Note:</b> The source {@link NamespaceID} must not correspond to an ID
+	 * that will be registered later, as this would create a conflict
+	 * between the aliased and registered {@link NamespaceID}.
+	 * </p>
+	 *
+	 * @param unsafeAlias a {@link BiConsumer} accepting a source {@link NamespaceID} (origin)
+	 *              and a destination {@link NamespaceID} (target),
+	 *              establishing the alias relationship between them
+	 *                       
+	 * @see #defineAlias(BiConsumer) 
+	 */
+	default void defineUnsafeAlias(BiConsumer<NamespaceID, NamespaceID> unsafeAlias) {}
 }

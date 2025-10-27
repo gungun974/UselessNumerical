@@ -214,6 +214,18 @@ public class MinecraftIdsConfiguration {
 				localItemsMap.put(to, itemValue);
 			}
 		}));
+
+		FabricLoader.getInstance().getEntrypoints("uselessNumerical", UselessNumericalEntrypoint.class).forEach(e -> e.defineUnsafeAlias((NamespaceID from, NamespaceID to) -> {
+			Integer blockValue = localBlockMap.remove(from);
+			if (blockValue != null) {
+				localBlockMap.put(to, blockValue);
+			}
+
+			Integer itemValue = localItemsMap.remove(from);
+			if (itemValue != null) {
+				localItemsMap.put(to, itemValue);
+			}
+		}));
 	}
 
 	private static void checkNamespaceValid(NamespaceID tested) {
@@ -329,6 +341,11 @@ public class MinecraftIdsConfiguration {
 				throw new IllegalArgumentException("Can't attribute custom id for block with " + id + " since it's an alias for " + to);
 			}
 		}));
+		FabricLoader.getInstance().getEntrypoints("uselessNumerical", UselessNumericalEntrypoint.class).forEach(e -> e.defineUnsafeAlias((NamespaceID from, NamespaceID to) -> {
+			if (from.equals(id)) {
+				throw new IllegalArgumentException("Can't attribute custom id for block with " + id + " since it's an alias for " + to);
+			}
+		}));
 		int attributedNumericalId = getNumericalIdForBlock(id);
 
 		if (attributedNumericalId != -1) {
@@ -356,6 +373,11 @@ public class MinecraftIdsConfiguration {
 
 	public int generateNumericalIdForItem(NamespaceID id, int preferredNumericalId) {
 		FabricLoader.getInstance().getEntrypoints("uselessNumerical", UselessNumericalEntrypoint.class).forEach(e -> e.defineAlias((NamespaceID from, NamespaceID to) -> {
+			if (from.equals(id)) {
+				throw new IllegalArgumentException("Can't attribute custom id for item with " + id + " since it's an alias for " + to);
+			}
+		}));
+		FabricLoader.getInstance().getEntrypoints("uselessNumerical", UselessNumericalEntrypoint.class).forEach(e -> e.defineUnsafeAlias((NamespaceID from, NamespaceID to) -> {
 			if (from.equals(id)) {
 				throw new IllegalArgumentException("Can't attribute custom id for item with " + id + " since it's an alias for " + to);
 			}

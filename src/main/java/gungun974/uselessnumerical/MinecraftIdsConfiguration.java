@@ -200,22 +200,18 @@ public class MinecraftIdsConfiguration {
 
 			if (!fromObjectType.equals(toObjectType)) {
 				throw new IllegalArgumentException(
-					String.format("A %s cannot be converted into a %s!", fromObjectType, toObjectType)
+					String.format("A %s cannot be aliased into a %s!", fromObjectType, toObjectType)
 				);
 			}
 
-			if (fromObjectType.equals("block")) {
-				Integer blockValue = localBlockMap.remove(from);
-				if (blockValue != null) {
-					localBlockMap.put(to, blockValue);
-				}
+			Integer blockValue = localBlockMap.remove(from);
+			if (blockValue != null) {
+				localBlockMap.put(to, blockValue);
 			}
 
-			else if (fromObjectType.equals("item")) {
-				Integer itemValue = localItemsMap.remove(from);
-				if (itemValue != null) {
-					localItemsMap.put(to, itemValue);
-				}
+			Integer itemValue = localItemsMap.remove(from);
+			if (itemValue != null) {
+				localItemsMap.put(to, itemValue);
 			}
 		}));
 	}

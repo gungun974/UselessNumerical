@@ -13,14 +13,12 @@ import net.minecraft.core.item.Item;
 import net.minecraft.core.net.PropertyManager;
 import net.minecraft.core.util.HardIllegalArgumentException;
 import net.minecraft.core.util.collection.NamespaceID;
-import net.minecraft.server.MinecraftServer;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MinecraftIdsConfiguration {
 	private static MinecraftIdsConfiguration instance;
@@ -194,16 +192,44 @@ public class MinecraftIdsConfiguration {
 		}
 
 		FabricLoader.getInstance().getEntrypoints("uselessNumerical", UselessNumericalEntrypoint.class).forEach(e -> e.defineAlias((NamespaceID from, NamespaceID to) -> {
-			Integer blockValue = localBlockMap.remove(from);
-			if (blockValue != null) {
-				localBlockMap.put(to, blockValue);
+			checkNamespaceValid(from);
+			checkNamespaceValid(to);
+
+			String fromObjectType = from.value().split("/")[0];
+			String toObjectType = to.value().split("/")[0];
+
+			if (!fromObjectType.equals(toObjectType)) {
+				throw new IllegalArgumentException(
+					String.format("A %s cannot be converted into a %s!", fromObjectType, toObjectType)
+				);
 			}
 
-			Integer itemValue = localItemsMap.remove(from);
-			if (itemValue != null) {
-				localItemsMap.put(to, itemValue);
+			if (fromObjectType.equals("block")) {
+				Integer blockValue = localBlockMap.remove(from);
+				if (blockValue != null) {
+					localBlockMap.put(to, blockValue);
+				}
+			}
+
+			else if (fromObjectType.equals("item")) {
+				Integer itemValue = localItemsMap.remove(from);
+				if (itemValue != null) {
+					localItemsMap.put(to, itemValue);
+				}
 			}
 		}));
+	}
+
+	private static void checkNamespaceValid(NamespaceID tested) {
+		String objectType = tested.value().split("/")[0];
+
+		if ("item".equals(objectType) || "block".equals(objectType)) return;
+
+		throw new IllegalArgumentException(
+			String.format(
+				"Invalid item type for \"%s\"! Have you forgotten to prefix it with \"item/\" or \"block/\"?", objectType
+			)
+		);
 	}
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")

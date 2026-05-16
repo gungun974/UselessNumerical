@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,8 +38,12 @@ public class ItemMixin {
 	@Shadow
 	public static int highestItemId;
 
-	@Inject(method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;I)V", at = @At("RETURN"))
-	private void hijackRegister(NamespaceID namespaceId, int preferredId, CallbackInfo ci) {
+	@Shadow
+	@Final
+	public static Object2IntMap nameToIdMap;
+
+	@Inject(method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;Ljava/lang/String;I)V", at = @At("RETURN"))
+	private void hijackRegister(NamespaceID namespaceId, String translationKey, int preferredId, CallbackInfo ci) {
 		fakeItemsList[preferredId] = null;
 		fakeItemsMap.remove(this.namespaceID);
 
@@ -54,11 +59,12 @@ public class ItemMixin {
 			if (this.id > highestItemId) {
 				highestItemId = this.id;
 			}
+			nameToIdMap.put("item." + translationKey, this.id);
 		}
 	}
 
 	@Redirect(
-		method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;I)V",
+		method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;Ljava/lang/String;I)V",
 		at = @At(
 			value = "FIELD",
 			target = "Lnet/minecraft/core/item/Item;itemsList:[Lnet/minecraft/core/item/Item;"
@@ -75,7 +81,7 @@ public class ItemMixin {
 	private static Map fakeItemsMap = new HashMap<>();
 
 	@Redirect(
-		method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;I)V",
+		method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;Ljava/lang/String;I)V",
 		at = @At(
 			value = "FIELD",
 			target = "Lnet/minecraft/core/item/Item;itemsMap:Ljava/util/Map;"
@@ -86,7 +92,7 @@ public class ItemMixin {
 	}
 
 	@Redirect(
-		method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;I)V",
+		method = "<init>(Lnet/minecraft/core/util/collection/NamespaceID;Ljava/lang/String;I)V",
 		at = @At(
 			value = "FIELD",
 			opcode = Opcodes.PUTSTATIC,

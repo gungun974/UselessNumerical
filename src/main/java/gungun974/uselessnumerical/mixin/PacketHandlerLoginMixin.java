@@ -4,7 +4,7 @@ import com.mojang.nbt.NbtIo;
 import gungun974.uselessnumerical.MinecraftIdsConfiguration;
 import net.minecraft.core.net.NetworkManager;
 import net.minecraft.core.net.packet.PacketCustomPayload;
-import net.minecraft.core.net.packet.PacketPreLogin;
+import net.minecraft.core.net.packet.PacketHandshake;
 import net.minecraft.server.net.handler.PacketHandlerLogin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,7 +21,7 @@ public abstract class PacketHandlerLoginMixin {
 	public NetworkManager netManager;
 
 	@Inject(method = "handleHandshake", at = @At(value = "HEAD"))
-	public void sendConfiguration(PacketPreLogin preLoginPacket, CallbackInfo ci) {
+	public void sendConfiguration(PacketHandshake packetHandshake, CallbackInfo ci) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			NbtIo.writeCompressed(MinecraftIdsConfiguration.getInstance().createNBTData(), baos);

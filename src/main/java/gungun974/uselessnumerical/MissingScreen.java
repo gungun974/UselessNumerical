@@ -6,6 +6,7 @@ import net.minecraft.client.gui.ScreenStats;
 import net.minecraft.client.gui.ScrolledSelectionList;
 import net.minecraft.client.player.controller.PlayerControllerSP;
 import net.minecraft.client.render.tessellator.Tessellator;
+import net.minecraft.client.render.tessellator.TessellatorGeneral;
 import net.minecraft.client.render.texture.stitcher.TextureRegistry;
 import net.minecraft.core.achievement.stat.Stat;
 import net.minecraft.core.achievement.stat.StatItem;
@@ -58,9 +59,9 @@ public class MissingScreen extends Screen {
 	public void render(int mx, int my, float partialTick) {
 		missingList.render(mx, my, partialTick);
 
-		this.drawStringCentered(this.font, "Numerical IDs missing", this.width / 2, 20, 16777215);
-		this.drawStringCentered(this.font, "There are " + (saveConflict.localBlockMap.size() + saveConflict.localItemsMap.size()) + " missing blocks and items in this save.", this.width / 2, 40, 16777215);
-		this.drawStringCentered(this.font, "If you continue, the missing blocks/items will get removed.", this.width / 2, 60, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "Numerical IDs missing", this.width / 2, 20, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "There are " + (saveConflict.localBlockMap.size() + saveConflict.localItemsMap.size()) + " missing blocks and items in this save.", this.width / 2, 40, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "If you continue, the missing blocks/items will get removed.", this.width / 2, 60, 16777215);
 
 		super.render(mx, my, partialTick);
 	}
@@ -79,7 +80,7 @@ public class MissingScreen extends Screen {
 		this.mc.displayScreen((Screen)null);
 		this.mc.playerController = new PlayerControllerSP(this.mc);
 
-		this.mc.startWorld(worldDirName, worldName, 0L);
+		this.mc.startWorld(worldDirName);
 		this.mc.displayScreen((Screen)null);
 	}
 
@@ -116,22 +117,22 @@ public class MissingScreen extends Screen {
 			return this.missingLocalBlocks.size() + this.missingLocalItems.size();
 		}
 
-		protected void renderItem(int index, int x, int y, int height, Tessellator tessellator) {
+		protected void renderItem(int index, int x, int y, int height, TessellatorGeneral tessellator) {
 			int blocksCount = missingLocalBlocks.size();
 			int itemsCount  = missingLocalItems.size();
 
 			if (index < blocksCount) {
 				NamespaceID block = missingLocalBlocks.get(index);
-				MissingScreen.this.drawString(MissingScreen.this.font, "[Block]", x + 2 - 124 / 2 - 38, y + 1, index % 2 != 0 ? 9474192 : 16777215);
-				MissingScreen.this.drawString(MissingScreen.this.font, block.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+				MissingScreen.this.drawStringShadow(MissingScreen.this.fontRenderer, "[Block]", x + 2 - 124 / 2 - 38, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+				MissingScreen.this.drawStringShadow(MissingScreen.this.fontRenderer, block.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
 				return;
 			}
 
 			int itemIndex = index - blocksCount;
 			if (itemIndex < itemsCount) {
 				NamespaceID item = missingLocalItems.get(itemIndex);
-				MissingScreen.this.drawString(MissingScreen.this.font, "[Item]", x + 2 - 124 / 2 - 38, y + 1, index % 2 != 0 ? 9474192 : 16777215);
-				MissingScreen.this.drawString(MissingScreen.this.font, item.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+				MissingScreen.this.drawStringShadow(MissingScreen.this.fontRenderer, "[Item]", x + 2 - 124 / 2 - 38, y + 1, index % 2 != 0 ? 9474192 : 16777215);
+				MissingScreen.this.drawStringShadow(MissingScreen.this.fontRenderer, item.toString(), x + 2 - 124 / 2, y + 1, index % 2 != 0 ? 9474192 : 16777215);
 			}
 		}
 	}

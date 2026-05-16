@@ -162,7 +162,7 @@ public class MinecraftIdsConfiguration {
 			final int id = ((IntTag) tag).getValue();
 
 			try {
-				final NamespaceID namespaceID = NamespaceID.getPermanent(entry.getKey());
+				final NamespaceID namespaceID = new NamespaceID(entry.getKey());
 
 				localBlockMap.put(namespaceID, id);
 
@@ -183,7 +183,7 @@ public class MinecraftIdsConfiguration {
 			final int id = ((IntTag) tag).getValue();
 
 			try {
-				final NamespaceID namespaceID = NamespaceID.getPermanent(entry.getKey());
+				final NamespaceID namespaceID = new NamespaceID(entry.getKey());
 
 				localItemsMap.put(namespaceID, id);
 

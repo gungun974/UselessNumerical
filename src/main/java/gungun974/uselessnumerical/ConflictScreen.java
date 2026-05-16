@@ -29,10 +29,10 @@ public class ConflictScreen extends Screen {
 
 	public void render(int mx, int my, float partialTick) {
 		this.renderBackground();
-		this.drawStringCentered(this.font, "Numerical IDs mismatch", this.width / 2, 20, 16777215);
-		this.drawStringCentered(this.font, "The world you tried to load uses a different ID configuration.", this.width / 2, this.height / 2 - 50, 16777215);
-		this.drawStringCentered(this.font, "Restarting the game is required to apply it.", this.width / 2, this.height / 2 - 30, 16777215);
-		this.drawStringCentered(this.font, "Would you like to restart?", this.width / 2, this.height / 2 + 10, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "Numerical IDs mismatch", this.width / 2, 20, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "The world you tried to load uses a different ID configuration.", this.width / 2, this.height / 2 - 50, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "Restarting the game is required to apply it.", this.width / 2, this.height / 2 - 30, 16777215);
+		this.drawStringCenteredShadow(this.fontRenderer, "Would you like to restart?", this.width / 2, this.height / 2 + 10, 16777215);
 
 		super.render(mx, my, partialTick);
 	}

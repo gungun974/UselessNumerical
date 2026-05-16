@@ -10,7 +10,7 @@ import net.minecraft.client.gui.ScreenMainMenu;
 import net.minecraft.client.net.handler.PacketHandlerClient;
 import net.minecraft.core.net.NetworkManager;
 import net.minecraft.core.net.packet.PacketCustomPayload;
-import net.minecraft.core.net.packet.PacketPreLogin;
+import net.minecraft.core.net.packet.PacketHandshake;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -55,7 +55,7 @@ public abstract class PacketHandlerClientMixin {
 	}
 
 	@Inject(method = "handleHandshake", at = @At(value = "HEAD"), cancellable = true)
-	public void checkCompatibilityWithServer(PacketPreLogin preLoginPacket, CallbackInfo ci) {
+	public void checkCompatibilityWithServer(PacketHandshake packetHandshake, CallbackInfo ci) {
 		if (configuration == null) {
 			return;
 		}

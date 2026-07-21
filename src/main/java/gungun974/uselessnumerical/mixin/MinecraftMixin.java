@@ -30,7 +30,15 @@ public class MinecraftMixin {
 		value = "INVOKE",
 		target = "Lnet/minecraft/client/Minecraft;changeWorld(Lnet/minecraft/client/world/WorldClient;Ljava/lang/String;)V"
 	))
-	public void saveInstanceConfigurationInWorld(WorldConfiguration worldConfiguration, CallbackInfo ci) {
+	public void saveInstanceConfigurationInNewWorld(WorldConfiguration worldConfiguration, CallbackInfo ci) {
 		MinecraftIdsConfiguration.getInstance().saveWorldConfiguration(new File(this.mcDataDir, "saves/" + worldConfiguration.getFolderName(this.saveFormat)));
+	}
+
+	@Inject(method = "startWorld", at = @At(
+		value = "INVOKE",
+		target = "Lnet/minecraft/client/Minecraft;changeWorld(Lnet/minecraft/client/world/WorldClient;Ljava/lang/String;)V"
+	))
+	public void saveInstanceConfigurationInWorld(String worldDirName, CallbackInfo ci) {
+		MinecraftIdsConfiguration.getInstance().saveWorldConfiguration(new File(this.mcDataDir, "saves/" + worldDirName));
 	}
 }

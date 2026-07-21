@@ -27,6 +27,7 @@ import java.util.Map;
 
 public class MissingScreen extends Screen {
 	private final Screen textField;
+	private final MinecraftIdsConfiguration saveConfiguration;
 	private final MinecraftIdsConflict saveConflict;
 
 	private final String worldDirName;
@@ -34,8 +35,9 @@ public class MissingScreen extends Screen {
 
 	private MissingList missingList;
 
-	public MissingScreen(Screen guiscreen, MinecraftIdsConflict saveConflict, String worldDirName, String worldName) {
+	public MissingScreen(Screen guiscreen, MinecraftIdsConfiguration saveConfiguration, MinecraftIdsConflict saveConflict, String worldDirName, String worldName) {
 		this.textField = guiscreen;
+		this.saveConfiguration = saveConfiguration;
 		this.saveConflict = saveConflict;
 		this.worldDirName = worldDirName;
 		this.worldName = worldName;
@@ -77,6 +79,8 @@ public class MissingScreen extends Screen {
 	}
 
 	public void loadWorld() {
+		this.saveConfiguration.copyPreservedItemsToInstance();
+
 		this.mc.displayScreen((Screen)null);
 		this.mc.playerController = new PlayerControllerSP(this.mc);
 

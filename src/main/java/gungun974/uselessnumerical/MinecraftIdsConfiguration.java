@@ -47,6 +47,14 @@ public class MinecraftIdsConfiguration {
 	private final Map<NamespaceID, Integer> localBlockMap = new LinkedHashMap<>();
 	private final Map<NamespaceID, Integer> localItemsMap = new LinkedHashMap<>();
 
+	private static final Set<NamespaceID> PRESERVED_ITEMS = Set.of(
+		new NamespaceID("minecraft", "item/bucket"),
+		new NamespaceID("minecraft", "item/bucket_lava"),
+		new NamespaceID("minecraft", "item/bucket_water"),
+		new NamespaceID("minecraft", "item/bucket_icecream"),
+		new NamespaceID("minecraft", "item/bucket_milk")
+	);
+
 	public boolean hasWorldConfiguration(File saveDir) {
 		if (!saveDir.exists()) {
 			return false;
@@ -316,7 +324,7 @@ public class MinecraftIdsConfiguration {
 		CompoundTag itemTags = new CompoundTag();
 
 		for (Map.Entry<NamespaceID, Integer> entry : localItemsMap.entrySet()) {
-			if (!Item.itemsMap.containsKey(entry.getKey())) {
+			if (!Item.itemsMap.containsKey(entry.getKey()) && !PRESERVED_ITEMS.contains(entry.getKey())) {
 				continue;
 			}
 
@@ -405,6 +413,20 @@ public class MinecraftIdsConfiguration {
 		return numericalId;
 	}
 
+	public void copyPreservedItemsToInstance() {
+		for (Map.Entry<NamespaceID, Integer> item : localItemsMap.entrySet()) {
+			if (!PRESERVED_ITEMS.contains(item.getKey())) {
+				continue;
+			}
+
+			if (instance.getNumericalIdForItem(item.getKey()) != -1) {
+				continue;
+			}
+
+			instance.setNumericalIdForItem(item.getKey(), item.getValue());
+		}
+	}
+
 	public MinecraftIdsConflict checkConflictWithInstance(boolean ignoreMissing) {
 		if (!ignoreMissing) {
 			boolean missing = false;
@@ -425,6 +447,10 @@ public class MinecraftIdsConfiguration {
 
 			for (Map.Entry<NamespaceID, Integer> item : localItemsMap.entrySet()) {
 				if (Item.itemsMap.containsKey(item.getKey())) {
+					continue;
+				}
+
+				if (PRESERVED_ITEMS.contains(item.getKey())) {
 					continue;
 				}
 

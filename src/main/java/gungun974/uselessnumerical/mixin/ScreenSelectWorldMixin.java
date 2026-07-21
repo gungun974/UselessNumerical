@@ -58,7 +58,7 @@ public abstract class ScreenSelectWorldMixin extends Screen {
 				s = "World" + i;
 			}
 
-			this.mc.displayScreen(new MissingScreen(this, conflict, s, this.getSaveName(i)));
+			this.mc.displayScreen(new MissingScreen(this, saveConfiguration, conflict, s, this.getSaveName(i)));
 
 			ci.cancel();
 			return;

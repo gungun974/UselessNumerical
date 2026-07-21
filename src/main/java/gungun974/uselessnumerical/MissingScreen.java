@@ -73,6 +73,13 @@ public class MissingScreen extends Screen {
 			if (button.id == 1) {
 				this.mc.displayScreen(this.textField);
 			} else if (button.id == 2) {
+				MinecraftIdsConflict conflict = this.saveConfiguration.checkConflictWithInstance(true);
+
+				if (conflict == MinecraftIdsConflict.NEED_RESTART) {
+					this.mc.displayScreen(new ConflictScreen(this.textField, this.saveConfiguration));
+					return;
+				}
+
 				loadWorld();
 			}
 		}

@@ -55,6 +55,15 @@ public class MinecraftIdsConfiguration {
 		new NamespaceID("minecraft", "item/bucket_milk")
 	);
 
+	private static final Map<NamespaceID, NamespaceID> KEY_TRANSLATIONS = Map.of(
+		new NamespaceID("minecraft", "item/sulphur"), new NamespaceID("minecraft", "item/gunpowder"),
+		new NamespaceID("minecraft", "block/portal_paradise"), new NamespaceID("minecraft", "block/portal_drift"),
+		new NamespaceID("minecraft", "item/portal_paradise"), new NamespaceID("minecraft", "item/portal_drift"),
+		new NamespaceID("minecraft", "item/tool_shovel_tone"), new NamespaceID("minecraft", "item/tool_shovel_stone"),
+		new NamespaceID("minecraft", "block/cobble_netherrack_igneous"), new NamespaceID("minecraft", "block/magma"),
+		new NamespaceID("minecraft", "item/cobble_netherrack_igneous"), new NamespaceID("minecraft", "item/magma")
+	);
+
 	public boolean hasWorldConfiguration(File saveDir) {
 		if (!saveDir.exists()) {
 			return false;
@@ -196,6 +205,21 @@ public class MinecraftIdsConfiguration {
 				localItemsMap.put(namespaceID, id);
 
 			} catch (HardIllegalArgumentException ignored) {
+			}
+		}
+
+		for (Map.Entry<NamespaceID, NamespaceID> translation : KEY_TRANSLATIONS.entrySet()) {
+			final NamespaceID from = translation.getKey();
+			final NamespaceID to = translation.getValue();
+
+			Integer blockValue = localBlockMap.remove(from);
+			if (blockValue != null) {
+				localBlockMap.put(to, blockValue);
+			}
+
+			Integer itemValue = localItemsMap.remove(from);
+			if (itemValue != null) {
+				localItemsMap.put(to, itemValue);
 			}
 		}
 

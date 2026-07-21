@@ -18,8 +18,8 @@ public class ConflictScreen extends Screen {
 		I18n i18n = I18n.getInstance();
 		Keyboard.enableRepeatEvents(true);
 		this.buttons.clear();
-		this.buttons.add(new ButtonElement(1, this.width / 2 - 100, this.height / 4 + 128 + 12, i18n.translateKey("gui.create_world.button.cancel")));
-		this.buttons.add(new ButtonElement(2, this.width / 2 - 100, this.height / 4 + 104 + 12, "Restart and load IDs"));
+		this.buttons.add(new ButtonElement(2, this.width / 2 - 100, this.height / 2 + 44, "Restart and load IDs"));
+		this.buttons.add(new ButtonElement(1, this.width / 2 - 100, this.height / 2 + 68, i18n.translateKey("gui.create_world.button.cancel")));
 	}
 
 
